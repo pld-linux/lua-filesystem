@@ -24,8 +24,8 @@ hogy a fájlrendszeren műveleteket végezhess.
 
 %prep
 %setup -q -n luafilesystem-%{version}
-sed -i "s|PREFIX=.*|PREFIX=%{_prefix}|" config
-sed -i -r "s|(LUA_INC=.*)|\1/lua51|" config
+%{__sed} -i -e 's|PREFIX=.*|PREFIX=%{_prefix}|' config
+%{__sed} -i -e 's|\(LUA_INC=.*\)|\1/lua51|' config
 
 %build
 %{__make}
@@ -33,7 +33,7 @@ sed -i -r "s|(LUA_INC=.*)|\1/lua51|" config
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/lua/5.1
-cp src/lfs.so $RPM_BUILD_ROOT%{_libdir}/lua/5.1
+install src/lfs.so $RPM_BUILD_ROOT%{_libdir}/lua/5.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,4 +41,5 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README doc/us/*
-%{_libdir}/lua/5.1/*.so
+# XXX: parent dir runtime dep?
+%attr(755,root,root) %{_libdir}/lua/5.1/*.so
