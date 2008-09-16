@@ -9,6 +9,7 @@ Source0:	http://luaforge.net/frs/download.php/3345/luafilesystem-%{version}.tar.
 # Source0-md5:	fe2fa6decc48f0267b4f09975750280e
 URL:		http://www.keplerproject.org/luafilesystem/
 BuildRequires:	lua51-devel
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
