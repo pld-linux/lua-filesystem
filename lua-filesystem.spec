@@ -2,7 +2,7 @@ Summary:	File System Library for Lua
 Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
 Name:		lua-filesystem
 Version:	1.4.1
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Development/Languages
 Source0:	http://luaforge.net/frs/download.php/3345/luafilesystem-%{version}.tar.gz
