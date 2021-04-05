@@ -15,7 +15,7 @@ Summary:	File System Library for Lua
 Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
 Name:		lua%{luasuffix}-filesystem
 Version:	1.7.0.2
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Development/Languages
 Source0:	https://github.com/keplerproject/luafilesystem/archive/v1_7_0_2/%{real_name}-%{version}.tar.gz
