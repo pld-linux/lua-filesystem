@@ -8,7 +8,7 @@ Summary:	File System Library for Lua
 Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
 Name:		lua54-filesystem
 Version:	1.8.0
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Development/Languages
 Source0:	https://github.com/keplerproject/luafilesystem/archive/v%{tag_ver}/%{real_name}-%{version}.tar.gz
@@ -38,6 +38,7 @@ hogy a fájlrendszeren műveleteket végezhess.
 Summary:	File System Library for Lua
 Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
 Requires:	lua51-libs
+Obsoletes:	lua-filesystem < 1.7.0.2
 
 %description -n lua51-filesystem
 LuaFileSystem is a Lua library developed to complement the set of
