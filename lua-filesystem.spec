@@ -1,6 +1,7 @@
 %bcond_without	lua51		# lua51 package
 %bcond_without	lua52		# lua52 package
 %bcond_without	lua53		# lua53 package
+%bcond_without	luajit		# luajit package
 
 %define		real_name	luafilesystem
 %define		tag_ver		%(echo %{version} | tr . _)
@@ -9,7 +10,7 @@ Summary:	File System Library for Lua
 Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
 Name:		lua54-filesystem
 Version:	1.8.0
-Release:	3
+Release:	4
 License:	BSD-like
 Group:		Development/Languages
 Source0:	https://github.com/keplerproject/luafilesystem/archive/v%{tag_ver}/%{real_name}-%{version}.tar.gz
@@ -20,6 +21,7 @@ BuildRequires:	rpmbuild(macros) >= 1.605
 %{?with_lua51:BuildRequires:	lua51-devel}
 %{?with_lua52:BuildRequires:	lua52-devel}
 %{?with_lua53:BuildRequires:	lua53-devel}
+%{?with_luajit:BuildRequires:	luajit-devel}
 Requires:	lua54-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -88,6 +90,24 @@ hogy a fájlrendszeren műveleteket végezhess.
 
 Package for Lua 5.3.
 
+%package -n luajit-filesystem
+Summary:	File System Library for Lua
+Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
+Requires:	luajit-libs
+
+%description -n luajit-filesystem
+LuaFileSystem is a Lua library developed to complement the set of
+functions related to file systems offered by the standard Lua
+distribution.
+
+Package for LuaJIT.
+
+%description -n luajit-filesystem -l hu.UTF-8
+LuaFileSystem egy Lua könyvtár, amely függvények halmazát nyújtja,
+hogy a fájlrendszeren műveleteket végezhess.
+
+Package for LuaJIT.
+
 %prep
 %setup -q -n %{real_name}-%{tag_ver}
 
@@ -95,6 +115,7 @@ Package for Lua 5.3.
 %{?with_lua51:%{__mkdir} build-5.1}
 %{?with_lua51:%{__mkdir} build-5.2}
 %{?with_lua53:%{__mkdir} build-5.3}
+%{?with_luajit:%{__mkdir} build-jit}
 
 %build
 %{__make} clean
@@ -143,6 +164,18 @@ Package for Lua 5.3.
 %{__mv} src/lfs.so build-5.3
 %endif
 
+%if %{with luajit}
+%{__make} clean
+%{__make} \
+	CC="%{__cc}" \
+	WARN="%{rpmcflags} %{rpmcppflags} -fPIC" \
+	LUA_VERSION=jit-2.1 \
+	PREFIX=%{_prefix} \
+	LUA_LIBDIR=%{_libdir}/luajit/2.1
+
+%{__mv} src/lfs.so build-jit
+%endif
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -162,6 +195,11 @@ install -p build-5.2/lfs.so $RPM_BUILD_ROOT%{_libdir}/lua/5.2/lfs.so
 %if %{with lua53}
 install -d $RPM_BUILD_ROOT%{_libdir}/lua/5.3
 install -p build-5.3/lfs.so $RPM_BUILD_ROOT%{_libdir}/lua/5.3/lfs.so
+%endif
+
+%if %{with luajit}
+install -d $RPM_BUILD_ROOT%{_libdir}/luajit/2.1
+install -p build-jit/lfs.so $RPM_BUILD_ROOT%{_libdir}/luajit/2.1/lfs.so
 %endif
 
 %clean
@@ -191,4 +229,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.md doc/us/*
 %attr(755,root,root) %{_libdir}/lua/5.3/lfs.so
+%endif
+
+%if %{with luajit}
+%files -n luajit-filesystem
+%defattr(644,root,root,755)
+%doc README.md doc/us/*
+%attr(755,root,root) %{_libdir}/luajit/2.1/lfs.so
 %endif
