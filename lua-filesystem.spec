@@ -3,6 +3,10 @@
 %bcond_without	lua53		# lua53 package
 %bcond_without	luajit		# luajit package
 
+%ifnarch %{ix86} %{x8664} %{arm} aarch64 mips mips64 mipsel ppc
+%undefine	with_luajit
+%endif
+
 %define		real_name	luafilesystem
 %define		tag_ver		%(echo %{version} | tr . _)
 
@@ -10,7 +14,7 @@ Summary:	File System Library for Lua
 Summary(hu.UTF-8):	Fájlrendszer-könyvtár Lua-hoz.
 Name:		lua54-filesystem
 Version:	1.8.0
-Release:	4
+Release:	5
 License:	BSD-like
 Group:		Development/Languages
 Source0:	https://github.com/keplerproject/luafilesystem/archive/v%{tag_ver}/%{real_name}-%{version}.tar.gz
